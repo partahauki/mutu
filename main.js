@@ -1,7 +1,7 @@
 const { app, BrowserWindow } = require('electron')
 const ipcMain = require('electron').ipcMain;
 
-let sivu = "kalataulu.html"
+let sivu = "html/kalataulu.html"
 
 function createWindow () {
 	const win = new BrowserWindow({
@@ -12,7 +12,7 @@ function createWindow () {
     	}
 	})
 
-	win.loadFile('index.html')
+	win.loadFile('html/index.html')
 
   	ipcMain.on('load-page', (event, arg) => {
     	win.loadFile(arg);

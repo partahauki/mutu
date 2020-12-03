@@ -1,0 +1,19 @@
+<script>
+    const ipcRenderer = require('electron').ipcRenderer;
+
+    function moove()
+    {
+        ipcRenderer.send('load-page', 'html/kalataulu.html');
+    }
+</script>
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>MAINAIN</title>
+        <meta charset="UTF-8">
+        <!--link rel="stylesheet" type="text/css" href="Jylli.css">-->
+    </head>
+    <body>
+        <button onclick=moove()>GO</button>
+    </body>
+</html>
