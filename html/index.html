@@ -1,19 +1,17 @@
-<script>
-    const ipcRenderer = require('electron').ipcRenderer;
+<script src="../js/general.js"></script>
 
-    function moove()
-    {
-        ipcRenderer.send('load-page', 'html/kalataulu.html');
-    }
-</script>
 <!DOCTYPE html>
 <html>
     <head>
-        <title>MAINAIN</title>
+        <title>MUTU</title>
         <meta charset="UTF-8">
         <!--link rel="stylesheet" type="text/css" href="Jylli.css">-->
     </head>
     <body>
-        <button onclick=moove()>GO</button>
+        <button onclick='moove("uusi-koekalastus")'>Luo uusi koekalastus</button>
+        <button onclick='moove("koekalastukset")'>Avaa koekalastus</button>
+
+        <button onclick=moove()>Templaatit</button>
+        <button onclick=moove()>Export</button>
     </body>
 </html>

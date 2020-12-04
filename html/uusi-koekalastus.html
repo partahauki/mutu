@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<script src='../js/general.js'>
+</script>
+<script>let henri = (osoite) => moove(osoite, document.getElementById('nimi').value);</script>
+<html>
+    <head>
+        <title>YEE</title>
+        <meta charset="UTF-8">
+        <!--link rel="stylesheet" type="text/css" href="Jylli.css">-->
+    </head>
+
+    <body>
+        <h1>Uusi koekalastus</h1>
+        <div>
+            <label for="nimi">Nimi: </label>
+            <input type="text" id="nimi" name="nimi"><br>
+
+            <button onclick='henri("koekalastus")'>OK</button>
+            <button onclick='moove("index")'>Peruuta</button>
+        </div>
+    </body>
+</html>

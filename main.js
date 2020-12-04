@@ -1,8 +1,6 @@
 const { app, BrowserWindow } = require('electron')
 const ipcMain = require('electron').ipcMain;
 
-let sivu = "html/kalataulu.html"
-
 function createWindow () {
 	const win = new BrowserWindow({
     	width: 800,
@@ -14,8 +12,16 @@ function createWindow () {
 
 	win.loadFile('html/index.html')
 
-  	ipcMain.on('load-page', (event, arg) => {
-    	win.loadFile(arg);
+  	ipcMain.on('load-page', (event, osoite, args) => {
+		console.log(args);
+		console.log(`${osoite}-data`);
+
+		win.loadFile(`html/${osoite}.html`);
+		if (args != null){
+			win.webContents.on('did-finish-load', ()=>{
+				win.webContents.send(`${osoite}-data`, args)
+			})
+		}
 	});
 }
 

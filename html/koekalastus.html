@@ -1,4 +1,15 @@
 <!DOCTYPE html>
+<script>
+    const ipcRenderer = require('electron').ipcRenderer;
+
+    let moove = (osoite , args) => ipcRenderer.send("load-page", osoite, args);
+
+    ipcRenderer.on("koekalastus-data" , (event, args) => {
+        console.log(args);
+        console.log("ehhhhhhhhh"); 
+        document.getElementById('hoho').innerHTML= args; 
+    });
+</script>
 <html>
     <head>
         <title>YEE</title>
@@ -7,6 +18,6 @@
     </head>
 
     <body>
-        uiosdfoisudfasduofiasdlöfklasdasdasdasdasdasasd
+        <p id='hoho'></p>
     </body>
 </html>
