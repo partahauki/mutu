@@ -1,7 +1,13 @@
 <!DOCTYPE html>
-<script src='../js/general.js'>
+<script src='../js/general.js'></script>
+<script>
+
+let henri = (osoite) => {
+    let koeDict = {'koekalastuksenNimi' : document.getElementById('nimi').value , 'koealat' : {}};
+
+    moove(osoite, koeDict);
+}
 </script>
-<script>let henri = (osoite) => moove(osoite, document.getElementById('nimi').value);</script>
 <html>
     <head>
         <title>YEE</title>

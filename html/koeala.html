@@ -1,4 +1,13 @@
 <!DOCTYPE html>
+<script src="../js/general.js"></script>
+<script>
+    ipcRenderer.on("koeala-data" , (event, args) => {
+    let koeDict = args;
+    console.log("Koeala luotu"); 
+    document.getElementById('koeAlanNimi').innerHTML= args;
+    });
+
+</script>
 <html>
     <head>
         <title>YEE</title>
@@ -7,6 +16,6 @@
     </head>
 
     <body>
-        uiosdfoisudfasduofiasdlöfklasdasdasdasdasdasasd
+        <p id='koeAlanNimi'></p>
     </body>
 </html>
