@@ -1,0 +1,19 @@
+ Sain idean tämän ohjelman tekemisestä tehdessäni koekalastuksia KVVY Tutkimus Oy:ssa kesinä 2019 ja 2020. Kirjasimme aina kaikki kalastusten koeala- ja saalistiedot maastossa vedenkestämättömälle paperille, josta ne muunnettiin jälkikäteen manuaalisesti sähköiseen muotoon. Tämä oli ajoittain huonoissa sää- ja valaistusolosuhteissa todella hapokasta puuhaa. Sain idean alunperin sähköisestä verkkokalastuslomakkeesta ensimmäisen kerran jo kesänä 2019, mutta vasta toisella kierroksellani 2020 päätin alkaa harkitsemaan sen toteuttamista. Otin asian lopulta puheeksi ohjelmoijaksi opiskelevan veljeni kanssa. Hänen mielestään idea oli hyvä ja toteuttamiskelpoinen, ja päätimmekin aloittaa työnimellä "Mutu" kulkevan e-koekalastuslomakeprojektin syksyllä 2020. 
+ 
+Päätimme tehdä ohjelmasta Nodella, Electronilla ja SQLitella toteutetun työpöytäsovelluksen. Päätökseen vaikuttivat useat seikat; Koimme ensinnäkin perinteisen työpöytäsovelluksen olevan mahdolliselle käyttäjäkunnalle luontevampi ratkaisu kuin selainpohjainen ohjelma. Pidimme myös tärkeänä että ohjelma toteutetaan minulle vieraalla ohjelmointikielellä, jotta minä vähemmän kokeneena oppisin samalla jonkin uuden kielen. Harkitsimme alkuun Pythonia, mutta kuultuamme Electronista tuntui se lopulta parhaimmalta ratkaisulta; Tällöin minä pääsisin harjoittelemaan Javascriptiä ja veljeni saisi opiskella Electronin toimintaa. Olin käyttänyt Javascriptiä aiemmin vain ITKP1011 -kurssilla.
+
+Alustavan työjakosuunnitelmamme mukaan minä vastaan vesistöalan asiantuntijana pääosin ohjelman suunnitelusta. Lisäksi suunnittelen ja toteutan tietokantarakenteet, sekä tulen todennäköisesti vastaamaan ohjelman ulkoasun viimeistelystä. Minulla ei ole projektin alkuvaiheessa ollut mitään kokemusta SQL-kielestä. Veljeni on tarkoitus ottaa päävastuu ohjelman Electron-ominaisuuksista, mm. ipc -bussin toteutuksesta. Itse js-ohjelmointi jakautunee välillämme tasaisesti.
+
+Uuden entiteetin ID:n hankkiminen heti INSERT -OUTPUT Clausella 16/2/21
+
+SQLlää Frontissa, vs Iffihelvetti bäkissä 16/2/21
+SuperDictionary vs SQL syksy/2020
+Omien ominaisuusmuuttujien luomisen ongelmat - bloattaako liikaa?? 16/2/21
+
+Päätös toteutuksesta ja rajaus sähkökoekalastuslomakkeeksi elokuu? 2020
+Gitin alustus syksy 2020
+ipc-bussin toimiva pohja ja sivujen rungot syksy 2020
+Alustava tietokantasuunnitelma Joulukuu 2020
+alustavat SQL Luontilauseet & ER diagram ~13/2/2021
+IPC-bussin parantelu ja SQL komentojen lähetys, tietorakenteen muutos; linkkitaulujen poisto kk ka saalis-väleiltä 16/2/2021
+
