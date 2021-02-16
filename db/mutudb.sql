@@ -9,7 +9,21 @@ CREATE TABLE koekalastukset
 CREATE TABLE koealat
 (
 	id INTEGER PRIMARY KEY AUTOINCREMENT , --HALUSI TUON ID:N AUTOINCREMENTIN JÄLKEEN
-	nimi VARCHAR(20) --MIKÄ PITUUS?
+	nimi VARCHAR(20), --MIKÄ PITUUS?
+	kkid INTEGER,
+	FOREIGN KEY (kkid) REFERENCES koekalastukset(id)
+);
+
+CREATE TABLE saaliit (
+	id INTEGER PRIMARY KEY AUTOINCREMENT ,
+	laji VARCHAR(20),
+	mittaustyyppi INTEGER, --KOODI, ESIM 1 PAINO YKSILÖITTÄIN, 2 YHTEISPAINO YMS.
+	pituus INTEGER,
+	paino INTEGER,
+	lukumaara INTEGER, -- JOS YHTEISPAINO
+	kaid INTEGER,
+	FOREIGN KEY (kaid) REFERENCES koealat(id)
+	--PLUS LISÄKENTÄT sominaisuudet-taulusta haluttaessa?
 );
 
 CREATE TABLE kkominaisuudet (
@@ -22,29 +36,11 @@ CREATE TABLE kaominaisuudet (
 	kaominaisuus VARCHAR(20)
 );
 
-CREATE TABLE saaliit (
-	id INTEGER PRIMARY KEY AUTOINCREMENT ,
-	laji VARCHAR(20),
-	mittaustyyppi INTEGER, --KOODI, ESIM 1 PAINO YKSILÖITTÄIN, 2 YHTEISPAINO YMS.
-	pituus INTEGER,
-	paino INTEGER,
-	lukumaara INTEGER -- JOS YHTEISPAINO
-	--PLUS LISÄKENTÄT sominaisuudet-taulusta haluttaessa?
-);
-
 CREATE TABLE somiaisuudet ( --ELI CUSTOM-LISÄKENTTIÄ SAALIIT-TAULUUN, TARVIIKO OMAN TAULUN?? Sillon voi lisätä vain tietyille saaliskaloille/nipuille ominaisuuksia, ettei kaikille
 	id INTEGER PRIMARY KEY AUTOINCREMENT ,
 	sominaisuus VARCHAR(20)
 );
 
-CREATE TABLE link_koekalastukset_koealat
-(
-	id_koekalastukset INTEGER, 
-	id_koealat INTEGER,
-	FOREIGN KEY (id_koekalastukset) REFERENCES koekalastukset(id) ON DELETE SET NULL, --VAI CASCADE? KUULUKO TÄHÄN VAI PRIMA KEY -KOHTAAN?
-	FOREIGN KEY (id_koealat) REFERENCES koealat(id) ON DELETE SET NULL,
-	PRIMARY KEY(id_koekalastukset,id_koealat)
-);
 
 CREATE TABLE link_koekalastukset_kkominaisuudet
 (
@@ -66,14 +62,6 @@ CREATE TABLE link_koelalat_kaominaisuudet
 	PRIMARY KEY (id_koealat,id_kaominaisuudet)
 );
 
-CREATE TABLE link_koealat_saaliit
-(
-	id_koealat INTEGER,
-	id_saaliit INTEGER,
-	FOREIGN KEY (id_koealat) REFERENCES koealat(id) ON DELETE SET NULL,
-	FOREIGN KEY (id_saaliit) REFERENCES saaliit(id) ON DELETE SET NULL,
-	PRIMARY KEY (id_koealat,id_saaliit)
-);
 
 CREATE TABLE link_saaliit_sominaisuudet
 (
@@ -84,6 +72,25 @@ CREATE TABLE link_saaliit_sominaisuudet
 	FOREIGN KEY (id_sominaisuudet) REFERENCES sominaisuudet(id) ON DELETE SET NULL,
 	PRIMARY KEY (id_saaliit,id_sominaisuudet)
 );
+
+/*CREATE TABLE link_koealat_saaliit
+(
+	id_koealat INTEGER,
+	id_saaliit INTEGER,
+	FOREIGN KEY (id_koealat) REFERENCES koealat(id) ON DELETE SET NULL,
+	FOREIGN KEY (id_saaliit) REFERENCES saaliit(id) ON DELETE SET NULL,
+	PRIMARY KEY (id_koealat,id_saaliit)
+);*/
+
+/*CREATE TABLE link_koekalastukset_koealat
+(
+	id_koekalastukset INTEGER, 
+	id_koealat INTEGER,
+	FOREIGN KEY (id_koekalastukset) REFERENCES koekalastukset(id) ON DELETE SET NULL, --VAI CASCADE? KUULUKO TÄHÄN VAI PRIMA KEY -KOHTAAN?
+	FOREIGN KEY (id_koealat) REFERENCES koealat(id) ON DELETE SET NULL,
+	PRIMARY KEY(id_koekalastukset,id_koealat)
+);*/
+
 -----------------------------------AUTOINCREMENT ID SEQ SÄÄTÖ-------------------------------
 
 UPDATE sqlite_sequence SET seq = 100 WHERE NAME = 'koekalastukset';
@@ -97,7 +104,7 @@ UPDATE sqlite_sequence SET seq = 100 WHERE NAME = 'sominaisuudet';
 
 -----------------------------------TESTIJORINAA---------------------------------------------
 /*
---FAKE DATA---
+--MOCK DATA---
 
 INSERT INTO koekalastukset(nimi) VALUES ('Vermasjärvi');
 INSERT INTO koekalastukset(nimi) VALUES ('Karvia 2');
