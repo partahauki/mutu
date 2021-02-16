@@ -1,18 +1,11 @@
 <!DOCTYPE html>
-<script src='../js/general.js'></script>
-<script>
+<script src='../js/ipcRenderer.js'></script>
 
-let henri = (osoite) => {
-    let koeDict = {'koekalastuksenNimi' : document.getElementById('nimi').value , 'koealat' : {}};
-
-    moove(osoite, koeDict);
-}
-</script>
 <html>
     <head>
         <title>YEE</title>
         <meta charset="UTF-8">
-        <!--link rel="stylesheet" type="text/css" href="Jylli.css">-->
+        <!--link rel="stylesheet" type="text/css" href="../css/Jylli.css">-->
     </head>
 
     <body>
@@ -21,8 +14,21 @@ let henri = (osoite) => {
             <label for="nimi">Nimi: </label>
             <input type="text" id="nimi" name="nimi"><br>
 
-            <button onclick='henri("koekalastus")'>OK</button>
-            <button onclick='moove("index")'>Peruuta</button>
+            <button onclick='createKoekalastus()'>OK</button>
+            <button onclick='render_page("index")'>Peruuta</button>
         </div>
     </body>
 </html>
+
+<script>
+    function createKoekalastus(){
+        let name = document.querySelector("#nimi").value
+        insert_sql = `INSERT INTO koekalastukset VALUES(null, '${name}','shabanta')`
+        ipcRenderer.send("insert-data", insert_sql)
+    }
+
+    ipcRenderer.on("data-for-renderer", (event, avain) => {
+        let dict = {'avain' : avain};
+        render_page("koekalastus", dict);
+    })
+</script>

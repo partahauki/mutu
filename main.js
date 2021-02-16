@@ -1,7 +1,6 @@
 const { app, BrowserWindow } = require('electron')
 const ipcMain = require('electron').ipcMain;
-const sqlite3 = require('sqlite3').verbose();
-const fs = require('fs');
+const db = require('./js/database.js')
 
 function createWindow () {
 	const win = new BrowserWindow({
@@ -11,15 +10,14 @@ function createWindow () {
       	nodeIntegration: true
     	}
 	})
-
+	win.webContents.openDevTools()
 	win.loadFile('html/index.html')
 
   	ipcMain.on('load-page', (event, osoite, args) => {
-		console.log(args);
-		console.log(`${osoite}-data`);
+		//console.log(`${osoite}-data`);
 
 		win.loadFile(`html/${osoite}.html`);
-		if (args != null){
+		if (typeof args !== "undefined"){
 			win.webContents.on('did-finish-load', ()=>{
 				win.webContents.send(`${osoite}-data`, args)
 			})
@@ -27,34 +25,20 @@ function createWindow () {
 	});
 }
 
-const path = '/db/database.db';
+ipcMain.on('fetch-data', (event, sql) =>{
+	db.fetchData(event, sql)
+})
 
-try {
-  if (fs.existsSync(path)) {
-    let db = new sqlite3.Database('./db/database.db', sqlite3.OPEN_READWRITE, (err) => {
-		if (err) {
-		  console.error(err.message);
-		}
-		console.log('Connected to the database.');
-	});
-  }
-} catch(err) {
-  console.error(err);
-}
+ipcMain.on('insert-data', (event, sql) =>{
+	db.insertData(event, sql)
+})
 
-
-/*let db = new sqlite3.Database('./db/database.db', sqlite3.OPEN_READWRITE, (err) => {
-	if (err) {
-	  console.error(err.message);
-	}
-	console.log('Connected to the database.');
-});*/
-
-app.whenReady().then(createWindow)
+app.whenReady().then(() => {
+	createWindow()
+})
 
 app.on('window-all-closed', () => {
   	if (process.platform !== 'darwin') {
-		db.close();
     	app.quit()
   	}
 })

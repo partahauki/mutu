@@ -1,12 +1,35 @@
 <!DOCTYPE html>
+<script src="../js/ipcRenderer.js"></script>
+
 <html>
     <head>
-        <title>YEE</title>
+        <title>Koekalastukset</title>
         <meta charset="UTF-8">
-        <!--link rel="stylesheet" type="text/css" href="Jylli.css">-->
+        <!--link rel="stylesheet" type="text/css" href="../css/Jylli.css">-->
     </head>
-
     <body>
-        uiosdfoisudfasduofiasdlöfklasdasdasdasdasdasasd
+        <h1>Koekalastukset:</h1>
+        <div id="koekalastukset"></div>
     </body>
 </html>
+
+<script>
+    function fetchData(){
+        sql = "SELECT * FROM koekalastukset"
+        ipcRenderer.send("fetch-data", sql)
+    }
+       
+    ipcRenderer.on("data-for-renderer", (event, args) =>{
+        let divi = document.querySelector("#koekalastukset")
+        args.forEach(element => {
+            divi.innerHTML += `${element.nimi}<br>`
+        });
+    })
+
+    ipcRenderer.on("database-error", (event, args) =>{
+        let divi = document.querySelector("#koekalastukset")
+        divi.innerHTML = "Backend fail"
+    })
+    
+    document.body.onload = fetchData()
+</script>

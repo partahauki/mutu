@@ -1,25 +1,35 @@
 <!DOCTYPE html>
-<script src="../js/general.js"></script>
-<script>
-    let dict;
-    ipcRenderer.on("koekalastus-data" , (event, args) => {
-        dict = args;
-        document.getElementById('hoho').innerHTML= dict["koekalastuksenNimi"]; 
-    });
-</script>
+<script src="../js/ipcRenderer.js"></script>
+
 <html>
     <head>
         <title>YEE</title>
         <meta charset="UTF-8">
-        <!--link rel="stylesheet" type="text/css" href="Jylli.css">-->
+        <!--link rel="stylesheet" type="text/css" href="../css/Jylli.css">-->
     </head>
 
     <body>
         <h1>Koekalastus</h1>
-        <p id='hoho'></p>
-        <button onclick='moove("uusi-koeala", dict )'>Uusi koeala</button>
+        <p id='nimi'></p>
+        <button onclick='render_page("uusi-koeala", dict )'>Uusi koeala</button>
         <div name=koealat>
             <!--TÄHÄN LISTA OLEMASSA OLEVISTA KOEALOISTA-->
         </div>
     </body>
 </html>
+
+<script>
+    ipcRenderer.on("koekalastus-data", (event, args) => {
+        dict = args
+        sql = `SELECT * FROM koekalastukset WHERE id=${dict["avain"]}`
+        ipcRenderer.send("fetch-data", sql)
+    });
+
+    ipcRenderer.on("data-for-renderer", (event, args) => {
+        document.getElementById('nimi').innerHTML = args[0].nimi; 
+    });
+
+    let dict
+    document.body.onload = () => {console.log("body prepared")}
+
+</script>

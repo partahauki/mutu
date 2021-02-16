@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<script src="../js/general.js"></script>
+<script src="../js/ipcRenderer.js"></script>
 <script>
     ipcRenderer.on("koeala-data" , (event, args) => {
-    let koeDict = args;
-    console.log("Koeala luotu"); 
-    document.getElementById('koeAlanNimi').innerHTML= args;
+        let koeDict = args;
+        console.log("Koeala luotu"); 
+        document.getElementById('koeAlanNimi').innerHTML= args;
     });
 
 </script>
@@ -12,7 +12,7 @@
     <head>
         <title>YEE</title>
         <meta charset="UTF-8">
-        <!--link rel="stylesheet" type="text/css" href="Jylli.css">-->
+        <!--link rel="stylesheet" type="text/css" href="../css/Jylli.css">-->
     </head>
 
     <body>

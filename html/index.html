@@ -1,17 +1,18 @@
-<script src="../js/general.js"></script>
-
 <!DOCTYPE html>
+
+<script src="../js/ipcRenderer.js"></script>
+
 <html>
     <head>
         <title>MUTU</title>
         <meta charset="UTF-8">
-        <!--link rel="stylesheet" type="text/css" href="Jylli.css">-->
+        <!--link rel="stylesheet" type="text/css" href="../css/Jylli.css">-->
     </head>
     <body>
-        <button onclick='moove("uusi-koekalastus")'>Luo uusi koekalastus</button>
-        <button onclick='moove("koekalastukset")'>Avaa koekalastus</button>
+        <button onclick='render_page("uusi-koekalastus")'>Luo uusi koekalastus</button>
+        <button onclick='render_page("koekalastukset")'>Avaa koekalastus</button>
 
-        <button onclick=moove()>Templaatit</button>
-        <button onclick=moove()>Export</button>
+        <button onclick=render_page()>Templaatit</button>
+        <button onclick=render_page()>Export</button>
     </body>
 </html>

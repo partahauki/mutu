@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<script src="../js/general.js"></script>
+<script src="../js/ipcRenderer.js"></script>
 <script>
 const fs = require('fs');
 
@@ -27,14 +27,14 @@ let luoAla = (osoite) => {
     uusiKoeKalastus = JSON.parse('{"koeAlanNimi":"JJJJJJJJJJJ"}');
     uusiKoeKalastus["koeAlanNimi"] = document.getElementById('koeAlanNimi').value;
     koeDict["koealat"]["koeala" + (Object.keys(koeDict["koealat"]).length + 1)] = uusiKoeKalastus;
-    moove(osoite, koeDict);
+    render_page(osoite, koeDict);
 }
 </script>
 <html>
     <head>
         <title>YEE</title>
         <meta charset="UTF-8">
-        <!--link rel="stylesheet" type="text/css" href="Jylli.css">-->
+        <!--link rel="stylesheet" type="text/css" href="../css/Jylli.css">-->
     </head>
 
     <body>
@@ -50,7 +50,7 @@ let luoAla = (osoite) => {
             </div>
             <div>
             <button onclick='luoAla("koeala")'>OK</button>
-            <button onclick='moove("Koekalastus")'>Peruuta</button>
+            <button onclick='render_page("Koekalastus")'>Peruuta</button>
             </div>
         </div>
     </body>
