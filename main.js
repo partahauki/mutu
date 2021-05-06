@@ -13,13 +13,12 @@ function createWindow () {
 	win.webContents.openDevTools()
 	win.loadFile('html/index.html')
 
-  	ipcMain.on('load-page', (event, osoite, args) => {
-		//console.log(`${osoite}-data`);
-
+  	ipcMain.on('load-page', (event, osoite, ipc_data) => {
 		win.loadFile(`html/${osoite}.html`);
-		if (typeof args !== "undefined"){
+
+		if (typeof ipc_data !== "undefined"){
 			win.webContents.on('did-finish-load', ()=>{
-				win.webContents.send(`${osoite}-data`, args)
+				win.webContents.send(`${osoite}-data`, ipc_data)
 			})
 		}
 	});

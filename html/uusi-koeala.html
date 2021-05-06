@@ -1,35 +1,7 @@
 <!DOCTYPE html>
 <script src="../js/ipcRenderer.js"></script>
-<script>
-const fs = require('fs');
+<script>const fs = require('fs');</script>
 
-let koeDict;
-ipcRenderer.on("koekalastus-data" , (event, args) => koeDict = args);      
-console.log(koeDict);
-fs.readdir("html/templates/", function (err, files) {
-    //handling error
-    if (err) {
-        return console.log('Unable to scan directory: ' + err);
-    } 
-    //listing all files using forEach
-
-    files.forEach(function (file) {
-        document.getElementById('koealapohjat').innerHTML += `<option value="${file.split(".")[0]}">${file.split(".")[0]}</option>`; //PUULAAKIRATKAISU, LISÄÄ JS DYNAAMISESTI OPTION-ELEMENTIT
-        console.log(file);
-    });
-})
-
-let luoAla = (osoite) => {
-    let uusiKoeKalastus;
-    console.log("IME MUMAA");
-    let template = fetch(`templates/${(document.getElementById("koealapohjat").value + ".json")}`);
-    console.log(template);
-    uusiKoeKalastus = JSON.parse('{"koeAlanNimi":"JJJJJJJJJJJ"}');
-    uusiKoeKalastus["koeAlanNimi"] = document.getElementById('koeAlanNimi').value;
-    koeDict["koealat"]["koeala" + (Object.keys(koeDict["koealat"]).length + 1)] = uusiKoeKalastus;
-    render_page(osoite, koeDict);
-}
-</script>
 <html>
     <head>
         <title>YEE</title>
@@ -42,16 +14,37 @@ let luoAla = (osoite) => {
         <div>
             <label for="koeAlanNimi">Koealan nimi: </label>
             <input type="text" id="koeAlanNimi" name="koeAlanNimi"><br>
-            <div>
-                <label for="koealapohjat">Valitse koealapohja:</label>
-                <select name="koealapohjat" id="koealapohjat">
-                <!--TÄHÄN FUNKTIO JOKA HAKEE TEMPLAATIT-->    
-                </select> 
-            </div>
-            <div>
-            <button onclick='luoAla("koeala")'>OK</button>
+
+            <label for="koealatemplaatit">Valitse koealapohja:</label>
+            <select name="koealatemplaatit" id="koealatemplaatit">
+            <!--TÄHÄN FUNKTIO JOKA HAKEE TEMPLAATIT-->    
+            </select> 
+
+            <!--JOKU TEMPLATE PREVIEW-->
+
+            <button onclick='luoAla()'>OK</button>
+            <!--MIKSI PERUUTA-NAPPI TOIMII??-->
             <button onclick='render_page("Koekalastus")'>Peruuta</button>
-            </div>
         </div>
     </body>
 </html>
+
+<script> 
+    ipcRenderer.on("koekalastus-data" , (event, ipc_receive) => ipc_data = ipc_receive);
+
+    //Tästä jatkuu
+    let luoAla = () => {
+        let template = fetch(`templates/${(document.querySelector("#koealatemplaatit").value + ".json")}`);
+    }
+
+    let ipc_data = null
+
+    fs.readdir("html/templates/", function (err, templates) {
+        if (err) { return console.log('Unable to scan directory: ' + err); }
+
+        //Hakee vain json-tiedostojen nimet tällä hetkellä
+        templates.forEach(function (template) {
+            document.querySelector("#koealatemplaatit").innerHTML += `<option value="${template.split(".")[0]}">${template.split(".")[0]}</option>`;
+        });
+    })
+    </script>

@@ -21,14 +21,22 @@
 </html>
 
 <script>
-    function createKoekalastus(){
+    /*function createKoekalastus(){
         let name = document.querySelector("#nimi").value
+        //Poista null sqllauseesta???
+        insert_sql = `INSERT INTO koekalastukset VALUES(null, '${name}','shabanta')`
+        ipcRenderer.send("insert-data", insert_sql)
+    }*/
+
+    let createKoekalastus = () => {
+        let name = document.querySelector("#nimi").value
+        //Poista null sqllauseesta???
         insert_sql = `INSERT INTO koekalastukset VALUES(null, '${name}','shabanta')`
         ipcRenderer.send("insert-data", insert_sql)
     }
 
     ipcRenderer.on("data-for-renderer", (event, avain) => {
-        let dict = {'avain' : avain};
-        render_page("koekalastus", dict);
+        let ipc_send = {'avain' : avain}
+        render_page("koekalastus", ipc_send)
     })
 </script>

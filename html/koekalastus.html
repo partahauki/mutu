@@ -11,7 +11,7 @@
     <body>
         <h1>Koekalastus</h1>
         <p id='nimi'></p>
-        <button onclick='render_page("uusi-koeala", dict )'>Uusi koeala</button>
+        <button onclick='render_page("uusi-koeala", ipc_data)'>Uusi koeala</button>
         <div name=koealat>
             <!--TÄHÄN LISTA OLEMASSA OLEVISTA KOEALOISTA-->
         </div>
@@ -19,15 +19,15 @@
 </html>
 
 <script>
-    ipcRenderer.on("koekalastus-data", (event, args) => {
-        dict = args
-        sql = `SELECT * FROM koekalastukset WHERE id=${dict["avain"]}`
+    ipcRenderer.on("koekalastus-data", (event, ipc_receive) => {
+        ipc_data = ipc_receive
+        sql = `SELECT nimi FROM koekalastukset WHERE id=${ipc_receive["avain"]}`
         ipcRenderer.send("fetch-data", sql)
     });
 
-    ipcRenderer.on("data-for-renderer", (event, args) => {
-        document.getElementById('nimi').innerHTML = args[0].nimi; 
+    ipcRenderer.on("data-for-renderer", (event, sql_receive) => {
+        document.querySelector('#nimi').innerHTML = sql_receive[0].nimi;
     });
 
-    let dict = null
+    let ipc_data = null
 </script>
