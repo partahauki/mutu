@@ -31,7 +31,7 @@
     let createKoekalastus = () => {
         let name = document.querySelector("#nimi").value
         //Poista null sqllauseesta???
-        insert_sql = `INSERT INTO koekalastukset VALUES(null, '${name}','shabanta')`
+        insert_sql = `INSERT INTO koekalastukset VALUES(null, '${name}')`
         ipcRenderer.send("insert-data", insert_sql)
     }
 
