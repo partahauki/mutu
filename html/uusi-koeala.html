@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <script src="../js/ipcRenderer.js"></script>
-<script>const fs = require('fs');</script>
 
 <html>
     <head>
@@ -29,22 +28,23 @@
     </body>
 </html>
 
-<script> 
+<script>
+    //ipc-receive = koekalastuksen ID: {'avain' : x}
     ipcRenderer.on("koekalastus-data" , (event, ipc_receive) => ipc_data = ipc_receive);
 
-    //Tästä jatkuu
+    //Tästä jatkuu, ideana luoda ensin lisättävän alan lisäyslause, sitten selvittää mitä kaominaisuuksia 
+    //valittuun templaattiin on lisätty ja luoda kaomin-koeala-linkkitauluunlisäyslause
     let luoAla = () => {
-        let template = fetch(`templates/${(document.querySelector("#koealatemplaatit").value + ".json")}`);
+
+        let insert_sql = `INSERT INTO koealat VALUES(null,'${document.querySelector("#koealanNimi").value}','${ipc_data["avain"]}' , false, false)`
+        ipcRenderer.send("insert-data", insert_sql)
+        //Voiko templaattien enryt linkkitaulussa kopioida suoraan koealalle, kopioon vaihtaa id:n ja koealaid:n
+        
+/*let name = document.querySelector("#nimi").value
+//Poista null sqllauseesta???
+insert_sql = `INSERT INTO koekalastukset VALUES(null, '${name}','shabanta')`
+ipcRenderer.send("insert-data", insert_sql)*/
     }
 
     let ipc_data = null
-
-    fs.readdir("html/templates/", function (err, templates) {
-        if (err) { return console.log('Unable to scan directory: ' + err); }
-
-        //Hakee vain json-tiedostojen nimet tällä hetkellä
-        templates.forEach(function (template) {
-            document.querySelector("#koealatemplaatit").innerHTML += `<option value="${template.split(".")[0]}">${template.split(".")[0]}</option>`;
-        });
-    })
     </script>

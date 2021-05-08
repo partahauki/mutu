@@ -19,7 +19,8 @@
 </html>
 
 <script>
-    ipcRenderer.on("koekalastus-data", (event, ipc_receive) => {
+    //ipc-receive = koekalastuksen ID: {'avain' : x}
+    ipcRenderer.on("koekalastus-data", (event, ipc_receive) => { 
         ipc_data = ipc_receive
         sql = `SELECT nimi FROM koekalastukset WHERE id=${ipc_receive["avain"]}`
         ipcRenderer.send("fetch-data", sql)

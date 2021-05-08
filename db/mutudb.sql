@@ -11,6 +11,8 @@ CREATE TABLE koealat
 	id INTEGER PRIMARY KEY AUTOINCREMENT , --HALUSI TUON ID:N AUTOINCREMENTIN JÄLKEEN
 	nimi VARCHAR(20), --MIKÄ PITUUS?
 	kkid INTEGER,
+	ei_saalista BOOLEAN,
+	on_templaatti BOOLEAN,
 	FOREIGN KEY (kkid) REFERENCES koekalastukset(id)
 );
 
@@ -40,7 +42,6 @@ CREATE TABLE somiaisuudet ( --ELI CUSTOM-LISÄKENTTIÄ SAALIIT-TAULUUN, TARVIIKO
 	id INTEGER PRIMARY KEY AUTOINCREMENT ,
 	sominaisuus VARCHAR(20)
 );
-
 
 CREATE TABLE link_koekalastukset_kkominaisuudet
 (
@@ -92,6 +93,7 @@ CREATE TABLE link_saaliit_sominaisuudet
 );*/
 
 -----------------------------------AUTOINCREMENT ID SEQ SÄÄTÖ-------------------------------
+--LAKANNUT TOIMIMASTA??
 
 UPDATE sqlite_sequence SET seq = 100 WHERE NAME = 'koekalastukset';
 UPDATE sqlite_sequence SET seq = 100 WHERE NAME = 'koealat';
@@ -103,12 +105,15 @@ UPDATE sqlite_sequence SET seq = 100 WHERE NAME = 'sominaisuudet';
 -----------------------------------VALMIIDEN ENTRYJEN LUONTI--------------------------------
 
 -----------------------------------TESTIJORINAA---------------------------------------------
-/*
+
 --MOCK DATA---
 
 INSERT INTO koekalastukset(nimi) VALUES ('Vermasjärvi');
 INSERT INTO koekalastukset(nimi) VALUES ('Karvia 2');
+INSERT INTO koealat VALUES (null, "Köhniö", null, false, true);
+INSERT INTO koealat VALUES (null, "Kristokoski", 1, false, false);
 
+/*
 --MUISTISÄÄNTÖJÄ--
 
 sqlitebrowser database.db 
