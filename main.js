@@ -1,6 +1,5 @@
 const { app, BrowserWindow } = require('electron')
 const ipcMain = require('electron').ipcMain;
-const db = require('./js/database.js')
 
 function createWindow () {
 	const win = new BrowserWindow({
@@ -23,14 +22,6 @@ function createWindow () {
 		}
 	});
 }
-
-ipcMain.on('fetch-data', (event, sql) =>{
-	db.fetchData(event, sql)
-})
-
-ipcMain.on('insert-data', (event, sql) =>{
-	db.insertData(event, sql)
-})
 
 app.whenReady().then(() => {
 	createWindow()

@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <script src='../js/ipcRenderer.js'></script>
+<script src='../js/database.js'></script>
 
 <html>
     <head>
-        <title>YEE</title>
+        <title>uusi-koekalastus</title>
         <meta charset="UTF-8">
         <!--link rel="stylesheet" type="text/css" href="../css/Jylli.css">-->
     </head>
@@ -14,29 +15,29 @@
             <label for="nimi">Nimi: </label>
             <input type="text" id="nimi" name="nimi"><br>
 
-            <button onclick='createKoekalastus()'>OK</button>
+            <button onclick='insert_koekalastus()'>OK</button>
             <button onclick='render_page("index")'>Peruuta</button>
         </div>
     </body>
 </html>
 
 <script>
-    /*function createKoekalastus(){
-        let name = document.querySelector("#nimi").value
-        //Poista null sqllauseesta???
-        insert_sql = `INSERT INTO koekalastukset VALUES(null, '${name}','shabanta')`
-        ipcRenderer.send("insert-data", insert_sql)
-    }*/
-
-    let createKoekalastus = () => {
-        let name = document.querySelector("#nimi").value
-        //Poista null sqllauseesta???
-        insert_sql = `INSERT INTO koekalastukset VALUES(null, '${name}')`
-        ipcRenderer.send("insert-data", insert_sql)
+    let handle_sql_results = (sql_results) => {
+        proceed_page(sql_results)
     }
 
-    ipcRenderer.on("data-for-renderer", (event, avain) => {
-        let ipc_send = {'avain' : avain}
+    let insert_koekalastus = () => {
+        let name = document.querySelector("#nimi").value
+        //Poista null sqllauseesta???
+        let insert_sql = `INSERT INTO koekalastukset VALUES(null, '${name}')`
+        insertData(insert_sql)
+    }
+
+    let proceed_page = (sql_results) => {
+        console.log("last id avain")
+        console.log(sql_results)
+        let ipc_send = {'avain' : sql_results}
+        console.log(ipc_send)
         render_page("koekalastus", ipc_send)
-    })
+    }
 </script>

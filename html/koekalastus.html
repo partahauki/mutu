@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<script src="../js/ipcRenderer.js"></script>
+<script src='../js/ipcRenderer.js'></script>
+<!--<script src='../js/database.js'></script>-->
 
 <html>
     <head>
-        <title>YEE</title>
+        <title>koekalastus</title>
         <meta charset="UTF-8">
         <!--link rel="stylesheet" type="text/css" href="../css/Jylli.css">-->
     </head>
@@ -12,23 +13,30 @@
         <h1>Koekalastus</h1>
         <p id='nimi'></p>
         <button onclick='render_page("uusi-koeala", ipc_data)'>Uusi koeala</button>
-        <div name=koealat>
+        <div name='koealat'>
             <!--TÄHÄN LISTA OLEMASSA OLEVISTA KOEALOISTA-->
         </div>
     </body>
 </html>
 
 <script>
+    let handle_sql_results = (sql_results) => {
+        set_koekalastus_name(sql_results)
+    }
+
+    let set_koekalastus_name = (sql_results) => {
+        document.querySelector('#nimi').innerHTML = sql_results[0].nimi
+    }
+
     //ipc-receive = koekalastuksen ID: {'avain' : x}
     ipcRenderer.on("koekalastus-data", (event, ipc_receive) => { 
         ipc_data = ipc_receive
         sql = `SELECT nimi FROM koekalastukset WHERE id=${ipc_receive["avain"]}`
-        ipcRenderer.send("fetch-data", sql)
-    });
-
-    ipcRenderer.on("data-for-renderer", (event, sql_receive) => {
-        document.querySelector('#nimi').innerHTML = sql_receive[0].nimi;
+        console.log(ipc_data)
+        //db.fetchData(sql)
     });
 
     let ipc_data = null
 </script>
+
+<script src='../js/database.js'></script>

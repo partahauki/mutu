@@ -1,22 +1,22 @@
 const sqlite3 = require('sqlite3').verbose();
 
-const db_path = "./db/database.db";
+const db_path = "./db/database.db"
  
-const fetchData = (sql) => {
+exports.fetchData = (sql) => {
     const db = connectDatabase()
 
     db.all(sql, [], (err, rows) => {
         if(err){
-            console.error(err.message);
+            console.error(err.message)
         }
         else{
-            handle_sql_results(rows);
+            handle_sql_results(rows)
         }
         db.close()
     })
 }
 
-const insertData = (sql) => {
+exports.insertData = (sql) => {
     const db = connectDatabase()
     //ei arrow-syntaxia jos halutaan käyttää this-kontekstia
 
@@ -31,7 +31,7 @@ const insertData = (sql) => {
     })
 }
 
-const connectDatabase = () => {
+connectDatabase = () => {
     const db = new sqlite3.Database(db_path, (err) => {
         if (err) console.error(err.message)
         else console.log('Database exists.')
