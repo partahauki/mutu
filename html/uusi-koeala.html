@@ -15,8 +15,7 @@
             <input type="text" id="koeAlanNimi" name="koeAlanNimi"><br>
 
             <label for="koealatemplaatit">Valitse koealapohja:</label>
-            <select name="koealatemplaatit" id="koealatemplaatit">
-            <!--TÄHÄN FUNKTIO JOKA HAKEE TEMPLAATIT-->    
+            <select name="koealatemplaatit" id="koealatemplaatit"> 
             </select> 
 
             <!--JOKU TEMPLATE PREVIEW-->
@@ -31,20 +30,39 @@
 <script>
     //ipc-receive = koekalastuksen ID: {'avain' : x}
     ipcRenderer.on("koekalastus-data" , (event, ipc_receive) => ipc_data = ipc_receive);
+    ipcRenderer.on("data-for-renderer", (event, ipc_fetch) => {
+        let fetch_data = ipc_fetch
+    })
 
     //Tästä jatkuu, ideana luoda ensin lisättävän alan lisäyslause, sitten selvittää mitä kaominaisuuksia 
     //valittuun templaattiin on lisätty ja luoda kaomin-koeala-linkkitauluunlisäyslause
     let luoAla = () => {
 
-        let insert_sql = `INSERT INTO koealat VALUES(null,'${document.querySelector("#koealanNimi").value}','${ipc_data["avain"]}' , false, false)`
+        let fetch_sql = `SELECT * FROM link_koelalat_kaominaisuudet WHERE id_koealat = (SELECT (id) FROM koealat WHERE nimi = ${document.querySelector("#koealatemplaatit").value})`
+        ipcRenderer.send("fetch-data", fetch_sql)
+        console.log(fetch_data)
+
+
+
+        insert_sql[0] = `INSERT INTO koealat VALUES(null,'${document.querySelector("#koealanNimi").value}','${ipc_data["avain"]}' , false, false)`
         ipcRenderer.send("insert-data", insert_sql)
-        //Voiko templaattien enryt linkkitaulussa kopioida suoraan koealalle, kopioon vaihtaa id:n ja koealaid:n
+
         
-/*let name = document.querySelector("#nimi").value
-//Poista null sqllauseesta???
-insert_sql = `INSERT INTO koekalastukset VALUES(null, '${name}','shabanta')`
-ipcRenderer.send("insert-data", insert_sql)*/
+        //insert_sql[1] = `INSERT INTO link_koelalat_kaominaisuudet ( SELECT(id) FROM koealat WHERE nimi = "${document.querySelector("#koealanNimi").value}", SELECT * FROM table1 WHERE condition;)`
+        
+        //Voiko templaattien enryt linkkitaulussa kopioida suoraan koealalle, kopioon vaihtaa id:n ja koealaid:n.
+        //Template-kaominaisuuslinkeille oma taulu?? Kopiointi muuten vaikeaa.
+        
+        /*
+        INSERT INTO table2
+        SELECT * FROM table1
+        WHERE condition; 
+        let name = document.querySelector("#nimi").value
+        //Poista null sqllauseesta???
+        insert_sql = `INSERT INTO koekalastukset VALUES(null, '${name}','shabanta')`
+        ipcRenderer.send("insert-data", insert_sql)*/
     }
 
     let ipc_data = null
+    document.querySelector("#koealatemplaatit").innerHTML += "<br><option values='Jukka'>Jukka</option>"
     </script>
