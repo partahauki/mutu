@@ -28,64 +28,48 @@
 </html>
 
 <script>
-    //ipc-receive = koekalastuksen ID: {'avain' : x}
-    ipcRenderer.on("koekalastus-data" , (event, ipc_receive) => ipc_data = ipc_receive);
+    ipcRenderer.on("koekalastus-data" , (event, ipc_receive) => ipc_data = ipc_receive)
     ipcRenderer.on("data-for-renderer", (event, ipc_fetch, step) => {
-    ipc_data = ipc_fetch
-    console.log(ipc_data)
+        ipc_data = ipc_fetch
+        console.log(ipc_data)
 
-    if(step == 1){
-
-    }
-    else if(step == 2){
-        create_koeala()
-    }
-    else if(step == 3){
-        viimeistelepaaskaa()
-    }
-    
+        switch(step) {
+            case 1:
+                fetchTemplateLinks
+                break;
+            case 2:
+                createAla
+                break;
+            case 3:
+                LinkAlaToKaominaisuudet
+                break;
+        }
+        step++
     })
 
-    //Tästä jatkuu, ideana luoda ensin lisättävän alan lisäyslause, sitten selvittää mitä kaominaisuuksia 
-    //valittuun templaattiin on lisätty ja luoda kaomin-koeala-linkkitauluunlisäyslause
-    let luoAla = () => {
+    let fetchTemplateLinks = () => {
 
         let fetch_sql = `SELECT * FROM link_koelalat_kaominaisuudet WHERE id_koealat = (SELECT (id) FROM koealat WHERE nimi = "${document.querySelector("#koealatemplaatit").value}")`
-        ipcRenderer.send("fetch-data", fetch_sql)
+        ipcRenderer.send("fetch-data", fetch_sql, true)
+    }
 
-
-         //AWAIT
+    let createAla = (ipcdata) => {
         let templatelinks = ipc_data
 
         insert_sql = `INSERT INTO koealat VALUES(null,'${document.querySelector("#koealanNimi").value}','${ipc_data["avain"]}' , false, false)`
-        ipcRenderer.send("insert-data", insert_sql)
-
-
-        //AWAIT
-        
+        ipcRenderer.send("insert-data", insert_sql, true)
+    }
+    
+    let LinkAlaToKaominaisuudet = (ipcdata) => {
         let koealanID = ipc_data
 
         let insert_sql2 = new Array[ipc_data.length]
         templatelinks.forEach(row => {insert_sql2[row] = `INSERT INTO link_koelalat_kaominaisuudet VALUES (${koealanID},${row[1]},${row[2]})`})
-        insert_sql2.forEach(row => {ipcRenderer.send("insert-data", insert_sql[row])})
-
-        //insert_sql = `INSERT INTO koealat VALUES(null,'${document.querySelector("#koealanNimi").value}','${ipc_data["avain"]}' , false, false)`
-        //ipcRenderer.send("insert-data", insert_sql)
-        
-        //insert_sql[1] = `INSERT INTO link_koelalat_kaominaisuudet ( SELECT(id) FROM koealat WHERE nimi = "${document.querySelector("#koealanNimi").value}", SELECT * FROM table1 WHERE condition;)`
-        
-        //Voiko templaattien enryt linkkitaulussa kopioida suoraan koealalle, kopioon vaihtaa id:n ja koealaid:n.
-        //Template-kaominaisuuslinkeille oma taulu?? Kopiointi muuten vaikeaa.
-        
-        /*
-        INSERT INTO table2
-        SELECT * FROM table1
-        WHERE condition; 
-        let name = document.querySelector("#nimi").value
-        //Poista null sqllauseesta???
-        insert_sql = `INSERT INTO koekalastukset VALUES(null, '${name}','shabanta')`
-        ipcRenderer.send("insert-data", insert_sql)*/
+        insert_sql2.forEach(row => {ipcRenderer.send("insert-data", insert_sql[row], false)})
+        render_page("koeala", koealanID)
     }
+
+    //Sitten funktio jolla lähdetään eteenpäin koealaan
 
     let ipc_data = null
     let ipc_data = null
