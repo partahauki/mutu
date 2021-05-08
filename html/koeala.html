@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <script src="../js/ipcRenderer.js"></script>
 <script>
-    ipcRenderer.on("koeala-data" , (event, args) => {
-        let koeDict = args;
+    ipcRenderer.on("koeala-data" , (event, ipc_receive) => {
         console.log("Koeala luotu"); 
-        document.getElementById('koeAlanNimi').innerHTML= args;
+        console.log(ipc_receive); 
+        document.getElementById('koeAlanNimi').innerHTML= ipc_receive;
     });
 
 </script>

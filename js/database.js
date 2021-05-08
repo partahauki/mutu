@@ -20,22 +20,18 @@ exports.insertData = (event, sql) => {
     const db = connectDatabase()
     //ei arrow-syntaxia jos halutaan käyttää this-kontekstia
 
-    let counter
-    if(typeof(sql) == "Array"){counter = sql.length}
-    else counter = 1
-
-    for(let i = 0; i < counter; i++){//EI TOIMI, EI ARRAYSTA ARRAY??
-        db.run(sql, [], function(err) {
-            if(err){
-                console.error(err.message)
-                event.reply("database-error")
-            }
-            else{
-                event.reply("data-for-renderer", this.lastID)
-            }
-        })
-    }
-    db.close()
+    db.run(sql, [], function(err) {
+        if(err){
+            console.error(err.message)
+            event.reply("database-error")
+        }
+        else{
+            console.log("MAAAMEEEMU")
+            console.log(this.lastID)
+            event.reply("data-for-renderer", this.lastID)
+        }
+        db.close()
+    })
 }
 
 connectDatabase = () => {

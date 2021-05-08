@@ -20,7 +20,7 @@
 
             <!--JOKU TEMPLATE PREVIEW-->
 
-            <button onclick='luoAla()'>OK</button>
+            <button onclick='createAla()'>OK</button>
             <!--MIKSI PERUUTA-NAPPI TOIMII??-->
             <button onclick='render_page("Koekalastus")'>Peruuta</button>
         </div>
@@ -28,51 +28,56 @@
 </html>
 
 <script>
-    ipcRenderer.on("koekalastus-data" , (event, ipc_receive) => ipc_data = ipc_receive)
-    ipcRenderer.on("data-for-renderer", (event, ipc_fetch, step) => {
+    ipcRenderer.on("koekalastus-data" , (event, ipc_receive) => {
+        ipc_data = ipc_receive
+    })
+    
+    ipcRenderer.on("data-for-renderer", (event, ipc_fetch) => {
         ipc_data = ipc_fetch
-        console.log(ipc_data)
 
         switch(step) {
             case 1:
-                fetchTemplateLinks
+                koealanID = ipc_data
+                fetchTemplateLinks()
                 break;
             case 2:
-                createAla
+                templatelinks = ipc_data
+                LinkAlaToKaominaisuudet(ipc_data)
                 break;
             case 3:
-                LinkAlaToKaominaisuudet
+                proceed_page()
                 break;
         }
         step++
     })
 
-    let fetchTemplateLinks = () => {
-
-        let fetch_sql = `SELECT * FROM link_koelalat_kaominaisuudet WHERE id_koealat = (SELECT (id) FROM koealat WHERE nimi = "${document.querySelector("#koealatemplaatit").value}")`
-        ipcRenderer.send("fetch-data", fetch_sql, true)
+    let createAla = () => {
+        insert_sql = `INSERT INTO koealat VALUES(null,'${document.querySelector("#koeAlanNimi").value}','${ipc_data["avain"]}' , false, false)`
+        ipcRenderer.send("insert-data", insert_sql)
     }
 
-    let createAla = (ipcdata) => {
-        let templatelinks = ipc_data
-
-        insert_sql = `INSERT INTO koealat VALUES(null,'${document.querySelector("#koealanNimi").value}','${ipc_data["avain"]}' , false, false)`
-        ipcRenderer.send("insert-data", insert_sql, true)
+    let fetchTemplateLinks = () => {
+        let fetch_sql = `SELECT * FROM link_koelalat_kaominaisuudet WHERE id_koealat = (SELECT (id) FROM koealat WHERE nimi = "${document.querySelector("#koealatemplaatit").value}")`
+        ipcRenderer.send("fetch-data", fetch_sql)
     }
     
-    let LinkAlaToKaominaisuudet = (ipcdata) => {
-        let koealanID = ipc_data
+    let LinkAlaToKaominaisuudet = (ipc_data) => {
+        let insert_sql2 = "INSERT INTO link_koelalat_kaominaisuudet VALUES "
+        templatelinks.forEach(row => {
+            insert_sql2 += (`(${koealanID},${row["id_kaominaisuudet"]},${row["tiedot"]}),`)
+        })
+        insert_sql2 = insert_sql2.slice(0, -1)
 
-        let insert_sql2 = new Array[ipc_data.length]
-        templatelinks.forEach(row => {insert_sql2[row] = `INSERT INTO link_koelalat_kaominaisuudet VALUES (${koealanID},${row[1]},${row[2]})`})
-        insert_sql2.forEach(row => {ipcRenderer.send("insert-data", insert_sql[row], false)})
+        ipcRenderer.send("insert-data", insert_sql2)
+    }
+
+    let proceed_page = () => {
         render_page("koeala", koealanID)
     }
 
-    //Sitten funktio jolla lähdetään eteenpäin koealaan
-
-    let ipc_data = null
-    let ipc_data = null
     let step = 1
+    let ipc_data = null
+    let koealanID = null
+    let templatelinks = null
     document.querySelector("#koealatemplaatit").innerHTML += "<br><option values='Köhniö'>Köhniö</option>"
     </script>
