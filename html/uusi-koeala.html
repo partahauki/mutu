@@ -30,9 +30,20 @@
 <script>
     //ipc-receive = koekalastuksen ID: {'avain' : x}
     ipcRenderer.on("koekalastus-data" , (event, ipc_receive) => ipc_data = ipc_receive);
-    ipcRenderer.on("data-for-renderer", (event, ipc_fetch) => {
+    ipcRenderer.on("data-for-renderer", (event, ipc_fetch, step) => {
     ipc_data = ipc_fetch
     console.log(ipc_data)
+
+    if(step == 1){
+
+    }
+    else if(step == 2){
+        create_koeala()
+    }
+    else if(step == 3){
+        viimeistelepaaskaa()
+    }
+    
     })
 
     //Tästä jatkuu, ideana luoda ensin lisättävän alan lisäyslause, sitten selvittää mitä kaominaisuuksia 
@@ -78,5 +89,6 @@
 
     let ipc_data = null
     let ipc_data = null
+    let step = 1
     document.querySelector("#koealatemplaatit").innerHTML += "<br><option values='Köhniö'>Köhniö</option>"
     </script>
