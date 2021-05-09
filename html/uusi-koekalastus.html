@@ -21,22 +21,8 @@
 </html>
 
 <script>
-    /*function createKoekalastus(){
-        let name = document.querySelector("#nimi").value
-        //Poista null sqllauseesta???
-        insert_sql = `INSERT INTO koekalastukset VALUES(null, '${name}','shabanta')`
-        ipcRenderer.send("insert-data", insert_sql)
-    }*/
-
     let createKoekalastus = () => {
         let name = document.querySelector("#nimi").value
-        //Poista null sqllauseesta???
-        insert_sql = `INSERT INTO koekalastukset VALUES(null, '${name}')`
-        ipcRenderer.send("insert-data", insert_sql)
+        ipcRenderer.send("uusi-koekalastus-controller", "createKoekalastus" , name)
     }
-
-    ipcRenderer.on("data-for-renderer", (event, avain) => {
-        let ipc_send = {'avain' : avain}
-        render_page("koekalastus", ipc_send)
-    })
 </script>
