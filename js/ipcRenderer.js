@@ -1,5 +1,5 @@
 const ipcRenderer = require('electron').ipcRenderer
 
-function render_page(osoite, args) {
+function renderPage(osoite, args) {
     return ipcRenderer.send("load-page", osoite, args);
 }
