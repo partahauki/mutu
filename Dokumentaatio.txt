@@ -20,4 +20,7 @@ Alustava tietokantasuunnitelma Joulukuu 2020
 alustavat SQL Luontilauseet & ER diagram ~13/2/2021
 IPC-bussin parantelu ja SQL komentojen lähetys, tietorakenteen muutos; linkkitaulujen poisto kk ka saalis-väleiltä 16/2/2021
 Reorientaatio, metodien ja muuttujien yhtenäistämistä ja parantelua 6/5/21
-JSON koealatemplaatit helkuttiin, siirretään tietokantaan. Koealatemplaatit tallennetaan koealoihin, lisätäppä kertoo onko template. Voi olla eri id kuin aloilla, esim alle 100 8/5/21
+JSON koealatemplaatit helkuttiin, siirretään tietokantaan. Koealatemplaatit tallennetaan koealoihin, lisätäppä kertoo onko template. Voi olla eri id kuin aloilla, 
+esim alle 100. querySelector getElementByIdn tilalle. 8/5/21
+Muuttujien ja fuktioiden nimien sekä funktiokäytänteiden yhtenäistäminen, innerhtml vaihto textContentsiin, väliaikainen switch-case-keskus asyncin kiertämiseen, uuden koealan
+luominen ja templaatin liitäminen valmiiksi nykyisellä rakenteella.9/5/21

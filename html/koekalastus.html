@@ -3,15 +3,15 @@
 
 <html>
     <head>
-        <title>YEE</title>
+        <title>MUTU</title>
         <meta charset="UTF-8">
         <!--link rel="stylesheet" type="text/css" href="../css/Jylli.css">-->
     </head>
 
     <body>
         <h1>Koekalastus</h1>
-        <p id='nimi'></p>
-        <button onclick='render_page("uusi-koeala", ipc_data)'>Uusi koeala</button>
+        <p id='koekalastusName'></p>
+        <button onclick='renderPage("uusi-koeala", ipcData)'>Uusi koeala</button>
         <div name=koealat>
             <!--TÄHÄN LISTA OLEMASSA OLEVISTA KOEALOISTA-->
         </div>
@@ -20,15 +20,15 @@
 
 <script>
     //ipc-receive = koekalastuksen ID: {'avain' : x}
-    ipcRenderer.on("koekalastus-data", (event, ipc_receive) => { 
-        ipc_data = ipc_receive
-        sql = `SELECT nimi FROM koekalastukset WHERE id=${ipc_receive["avain"]}`
-        ipcRenderer.send("fetch-data", sql)
+    ipcRenderer.on("koekalastus-data", (event, ipcReceive) => { 
+        ipcData = ipcReceive
+        icpSend = `SELECT nimi FROM koekalastukset WHERE id=${ipcReceive["avain"]}`
+        ipcRenderer.send("fetch-data", icpSend)
     });
 
-    ipcRenderer.on("data-for-renderer", (event, sql_receive) => {
-        document.querySelector('#nimi').innerHTML = sql_receive[0].nimi;
+    ipcRenderer.on("data-for-renderer", (event, icpReceive) => {
+        document.querySelector('#nimi').textContent = icpReceive[0].nimi;
     });
 
-    let ipc_data = null
+    let ipcData = null
 </script>
