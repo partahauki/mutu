@@ -4,9 +4,9 @@ const db2 = new Database('./db/database.db', { verbose: console.log });
 exports.controller = (event, command, args) => {
     switch(command) {
         case "createKoekalastus":
-          createKoekalastus(event, args)
-          break;
-      } 
+            createKoekalastus(event, args)
+            break;
+    } 
 }
 
 createKoekalastus = (event, name) => {

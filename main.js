@@ -29,6 +29,16 @@ ipcMain.on('uusi-koekalastus-controller', (event, command, args) => {
 	controller.controller(event, command, args)
 })
 
+ipcMain.on('koekalastus-controller', (event, command, args) => {
+	const controller = require('./controllers/koekalastus.js')
+	controller.controller(event, command, args)
+})
+
+ipcMain.on('uusi-koeala-controller', (event, command, args) => {
+	const controller = require('./controllers/uusi-koeala.js')
+	controller.controller(event, command, args)
+})
+
 ipcMain.on('fetch-data', (event, sql) =>{
 	db.fetchData(event, sql)
 })

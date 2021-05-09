@@ -32,52 +32,16 @@
         ipcData = ipcReceive
     })
     
-    ipcRenderer.on("data-for-renderer", (event, ipcFetch) => {
-        ipcData = ipcFetch
-
-        switch(step) {
-            case 1:
-                koealaId = ipcData
-                fetchTemplateLinks()
-                break;
-            case 2:
-                templateLinks = ipcData
-                linkKoealaKaominaisuudet(ipcData)
-                break;
-            case 3:
-                proceedPage()
-                break;
-        }
-        step++
+    ipcRenderer.on("proceedPage", (event, ipcReceive) => {
+        renderPage("koeala", ipcReceive)
     })
 
     function createAla(){
-        let sqlInsert = `INSERT INTO koealat VALUES(null,'${document.querySelector("#koealaName").value}','${ipcData["avain"]}' , false, false)`
-        ipcRenderer.send("insert-data", sqlInsert)
+        ipcData["koealaName"] = document.querySelector("#koealaName").value
+        ipcData["templateId"] = document.querySelector("#koealatemplates").value
+        ipcRenderer.send("uusi-koeala-controller", "createAla", ipcData)
     }
 
-    function fetchTemplateLinks(){
-        let fetch_sql = `SELECT * FROM link_koelalat_kaominaisuudet WHERE id_koealat = (SELECT (id) FROM koealat WHERE nimi = "${document.querySelector("#koealatemplates").value}")`
-        ipcRenderer.send("fetch-data", fetch_sql)
-    }
-    
-    function linkKoealaKaominaisuudet(){
-        let sqlInsert = "INSERT INTO link_koelalat_kaominaisuudet VALUES "
-        templateLinks.forEach(row => {
-            sqlInsert += (`(${koealaId},${row["id_kaominaisuudet"]},${row["tiedot"]}),`)
-        })
-        sqlInsert = sqlInsert.slice(0, -1)
-
-        ipcRenderer.send("insert-data", sqlInsert)
-    }
-
-    function proceedPage(){
-        renderPage("koeala", koealaId)
-    }
-
-    let step = 1
     let ipcData = null
-    let koealaId = null
-    let templateLinks = null
-    document.querySelector("#koealatemplates").textContent += "<br><option values='Köhniö'>Köhniö</option>"
-    </script>
+    document.querySelector("#koealatemplates").innerHTML += "<br><option value='1'>Köhniö</option>"
+</script>
