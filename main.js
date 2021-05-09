@@ -29,7 +29,6 @@ ipcMain.on('uusi-koekalastus-controller', (event, command, args) => {
 	controller.controller(event, command, args)
 })
 
-
 ipcMain.on('fetch-data', (event, sql) =>{
 	db.fetchData(event, sql)
 })

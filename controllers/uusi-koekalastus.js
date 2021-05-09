@@ -1,20 +1,18 @@
+const Database = require('better-sqlite3');
+const db2 = new Database('./db/database.db', { verbose: console.log });
+
 exports.controller = (event, command, args) => {
     switch(command) {
         case "createKoekalastus":
-          createKoekalastus(args)
-          break;
-        case y:
-          // code block
+          createKoekalastus(event, args)
           break;
       } 
 }
 
-createKoekalastus = (name) => {
-    insert_sql = `INSERT INTO koekalastukset VALUES(null, '${name}')`
-    ipcRenderer.send("insert-data", insert_sql)
-}
+createKoekalastus = (event, name) => {
+    let insert = db2.prepare(`INSERT INTO koekalastukset VALUES(null, '${name}')`)
+    let lastKey = insert.run().lastInsertRowid
 
-ipcRenderer.on("data-for-renderer", (event, avain) => {
-    let ipc_send = {'avain' : avain}
-    render_page("koekalastus", ipc_send)
-})
+    let ipc_send = {'avain' : lastKey}
+    event.reply('proceedPage', ipc_send)
+}

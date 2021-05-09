@@ -25,4 +25,8 @@
         let name = document.querySelector("#nimi").value
         ipcRenderer.send("uusi-koekalastus-controller", "createKoekalastus" , name)
     }
+
+    ipcRenderer.on('proceedPage', (event, ipc_data) =>{
+        renderPage("koekalastus", ipc_data)
+    })
 </script>

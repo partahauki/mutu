@@ -27,7 +27,7 @@
     });
 
     ipcRenderer.on("data-for-renderer", (event, icpReceive) => {
-        document.querySelector('#nimi').textContent = icpReceive[0].nimi;
+        document.querySelector('#koekalastusName').textContent = icpReceive[0].nimi;
     });
 
     let ipcData = null
