@@ -22,7 +22,7 @@
     //ipc-receive = koekalastuksen ID: {'avain' : x}
     ipcRenderer.on("koekalastus-data", (event, ipcReceive) => {
         ipcData = ipcReceive 
-        ipcRenderer.send("koekalastus-controller", "initialize", ipcReceive)
+        ipcRenderer.send("koekalastus-controller", "initializePage", ipcReceive)
     });
 
     ipcRenderer.on("data-for-renderer", (event, ipcReceive) => {

@@ -18,7 +18,9 @@
             <select name="koealatemplates" id="koealatemplates"> 
             </select> 
 
-            <!--JOKU TEMPLATE PREVIEW-->
+            <table class=table id="templatePreview">
+                <caption>Templaatin Esikatselu</caption>
+            </table>
 
             <button onclick='createAla()'>OK</button>
             <!--MIKSI PERUUTA-NAPPI TOIMII??-->
@@ -28,13 +30,35 @@
 </html>
 
 <script>
-    ipcRenderer.on("koekalastus-data" , (event, ipcReceive) => {
+    document.querySelector("#koealatemplates").onchange = koealatemplatesListener;
+
+    ipcRenderer.on("uusi-koeala-data" , (event, ipcReceive) => {
+        console.log("Frontini ajettu")
         ipcData = ipcReceive
+        ipcRenderer.send("uusi-koeala-controller", "initializeSelections")// ehkä viä args null 
+    })
+
+    ipcRenderer.on("setSelections", (event, ipcReceive) => {
+        console.log("setSelections")
+        console.log(ipcReceive)
+        ipcReceive.forEach(row => {document.querySelector("#koealatemplates").innerHTML += `"<option value='${row['id']}'>${row['nimi']}</option>"`})
     })
     
     ipcRenderer.on("proceedPage", (event, ipcReceive) => {
         renderPage("koeala", ipcReceive)
     })
+
+    ipcRenderer.on("setTemplatePreview", (event, ipcReceive) => {
+        console.log("setTempPrev lähti myös tulille!");
+        ipcReceive.forEach(row => {
+            document.querySelector("#templatePreview").innerHTML += (`<tr><td class=cell>${row['id_kaominaisuudet']}</td><td class=cell>${row['tiedot']}</td></tr>`)})
+    })
+
+    function koealatemplatesListener(){
+        console.log("I see you fiddling with my selector")
+        ipcRenderer.send("uusi-koeala-controller", "initializeTemplatePreview", document.querySelector("#koealatemplates").value)
+        console.log(document.querySelector("#koealatemplates").value)
+    }
 
     function createAla(){
         ipcData["koealaName"] = document.querySelector("#koealaName").value
@@ -43,5 +67,5 @@
     }
 
     let ipcData = null
-    document.querySelector("#koealatemplates").innerHTML += "<br><option value='1'>Köhniö</option>"
+    
 </script>

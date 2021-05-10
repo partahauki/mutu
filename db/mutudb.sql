@@ -53,7 +53,7 @@ CREATE TABLE link_koekalastukset_kkominaisuudet
 	PRIMARY KEY(id_koekalastukset,id_kkominaisuudet)
 );
 
-CREATE TABLE link_koelalat_kaominaisuudet
+CREATE TABLE link_koealat_kaominaisuudet
 (
 	id_koealat INTEGER,
 	id_kaominaisuudet INTEGER,
@@ -112,6 +112,7 @@ INSERT INTO koekalastukset(nimi) VALUES ('Vermasjärvi');
 INSERT INTO koekalastukset(nimi) VALUES ('Karvia 2');
 
 INSERT INTO koealat VALUES (null, "Köhniö", null, false, true);
+INSERT INTO koealat VALUES (null, "Kiertojoki", null, false, true);
 INSERT INTO koealat VALUES (null, "Kristokoski", 1, false, false);
 
 INSERT INTO kaominaisuudet VALUES (null, "Alan leveys-1");
@@ -120,11 +121,16 @@ INSERT INTO kaominaisuudet VALUES (null, "Alan leveys-3");
 INSERT INTO kaominaisuudet VALUES (null, "Alan pituus");
 INSERT INTO kaominaisuudet VALUES (null, "Kalastajat");
 
-INSERT INTO link_koelalat_kaominaisuudet VALUES ((SELECT (id) FROM koealat WHERE nimi = "Köhniö"),(SELECT (id) FROM kaominaisuudet WHERE kaominaisuus = "Alan leveys-1"),0);
-INSERT INTO link_koelalat_kaominaisuudet VALUES ((SELECT (id) FROM koealat WHERE nimi = "Köhniö"),(SELECT (id) FROM kaominaisuudet WHERE kaominaisuus = "Alan leveys-2"),0);
-INSERT INTO link_koelalat_kaominaisuudet VALUES ((SELECT (id) FROM koealat WHERE nimi = "Köhniö"),(SELECT (id) FROM kaominaisuudet WHERE kaominaisuus = "Alan leveys-3"),0);
-INSERT INTO link_koelalat_kaominaisuudet VALUES ((SELECT (id) FROM koealat WHERE nimi = "Köhniö"),(SELECT (id) FROM kaominaisuudet WHERE kaominaisuus = "Alan pituus"),0);
-INSERT INTO link_koelalat_kaominaisuudet VALUES ((SELECT (id) FROM koealat WHERE nimi = "Köhniö"),(SELECT (id) FROM kaominaisuudet WHERE kaominaisuus = "Kalastajat"), null);
+INSERT INTO link_koealat_kaominaisuudet VALUES ((SELECT (id) FROM koealat WHERE nimi = "Köhniö"),(SELECT (id) FROM kaominaisuudet WHERE kaominaisuus = "Alan leveys-1"),0);
+INSERT INTO link_koealat_kaominaisuudet VALUES ((SELECT (id) FROM koealat WHERE nimi = "Köhniö"),(SELECT (id) FROM kaominaisuudet WHERE kaominaisuus = "Alan leveys-2"),0);
+INSERT INTO link_koealat_kaominaisuudet VALUES ((SELECT (id) FROM koealat WHERE nimi = "Köhniö"),(SELECT (id) FROM kaominaisuudet WHERE kaominaisuus = "Alan leveys-3"),0);
+INSERT INTO link_koealat_kaominaisuudet VALUES ((SELECT (id) FROM koealat WHERE nimi = "Köhniö"),(SELECT (id) FROM kaominaisuudet WHERE kaominaisuus = "Alan pituus"),0);
+INSERT INTO link_koealat_kaominaisuudet VALUES ((SELECT (id) FROM koealat WHERE nimi = "Köhniö"),(SELECT (id) FROM kaominaisuudet WHERE kaominaisuus = "Kalastajat"), null);
+INSERT INTO link_koealat_kaominaisuudet VALUES ((SELECT (id) FROM koealat WHERE nimi = "Kiertojoki"),(SELECT (id) FROM kaominaisuudet WHERE kaominaisuus = "Alan leveys-1"),0);
+INSERT INTO link_koealat_kaominaisuudet VALUES ((SELECT (id) FROM koealat WHERE nimi = "Kiertojoki"),(SELECT (id) FROM kaominaisuudet WHERE kaominaisuus = "Alan leveys-2"),0);
+INSERT INTO link_koealat_kaominaisuudet VALUES ((SELECT (id) FROM koealat WHERE nimi = "Kiertojoki"),(SELECT (id) FROM kaominaisuudet WHERE kaominaisuus = "Alan leveys-3"),0);
+INSERT INTO link_koealat_kaominaisuudet VALUES ((SELECT (id) FROM koealat WHERE nimi = "Kiertojoki"),(SELECT (id) FROM kaominaisuudet WHERE kaominaisuus = "Alan pituus"),0);
+INSERT INTO link_koealat_kaominaisuudet VALUES ((SELECT (id) FROM koealat WHERE nimi = "Kiertojoki"),(SELECT (id) FROM kaominaisuudet WHERE kaominaisuus = "Kalastajat"), null);
 /*
 --MUISTISÄÄNTÖJÄ--
 

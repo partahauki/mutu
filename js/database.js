@@ -1,5 +1,3 @@
-const sqlite3 = require('sqlite3').verbose();
-
 const db_path = "./db/database.db"
  
 exports.fetchData = (event, sql) => {
